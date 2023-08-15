@@ -41,14 +41,14 @@ class SignatureAccumulator(NodeVisitor):
 class EClientSocketAccumulator(SignatureAccumulator):
     def getSignatures(self):
         for name, args in self.signatures:
-            if match('(?i)req|cancel|place', name):
+            if match('req|cancel|place', name.lower()):
                 yield (name, args)
 
 
 class EWrapperAccumulator(SignatureAccumulator):
     def getSignatures(self):
         for name, args in self.signatures:
-            if match('(?!((?i)error.*))', name):
+            if not name.lower().startswith('error'):
                 yield (name, args)
 
 
